@@ -39,7 +39,6 @@ function Get-ModID($mod) {
     Set-Location -Path "C:\Arma3\$mod"
     $metaFileHash = Get-Content 'meta.cpp' -Raw | ConvertFrom-StringData -Delimiter '='
     return $metaFileHash['publishedid'].TrimEnd(";")
-    
 }
 
 function Get-UpdateTimestampRemote($id) {
