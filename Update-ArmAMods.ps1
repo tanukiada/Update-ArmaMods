@@ -1,10 +1,12 @@
 <#
     .SYNOPSIS
-    To be written..
+    Update-ArmaMods.ps1 checks all mods in C:\Arma3\ for updates.
 #>
 
 function main {
     $modList = Get-Mods
+    $username = Read-Host "Input Steam username"
+    $password = Read-Host "Input Steam password"
     foreach ($mod in $modList) {
         $modID = Get-ModID($mod)
         $updateTimestampRemote = Get-UpdateTimestampRemote($modID)
@@ -13,9 +15,10 @@ function main {
         $unixTimeLocal = [DateTimeOffset]::new($dateTimeLocal).ToUnixTimeSeconds()
         $status = Compare-Times($unixTimeLocal, $updateTimestampRemote, $mod)
         if ($status) {
-            Write-Output "$mods needs updated."
+            Write-Output "$mods needs updated. Updating Now."
+            Update-Mod($modID, $username, $password, $name)
         } elseif (!$status) {
-            Write-Output "$mod is up to date."
+            Write-Output "$mod is up to date. Continuing..."
         }
     }
     Set-Location "C:\Users\james\Documents\Coding\powershell\Update-ArmAMods"
@@ -63,6 +66,11 @@ function Compare-Times($localTime, $remoteTime, $mod) {
     } elseif ($remoteTime -le $localTime) {
         return $false
     }
+}
+
+function Update-Mod($id, $username, $password, $name) {
+    ./steamcmd +force_install_dir C:\Arma3\ +login $username, $password +workshop_download_item 107410 $id +quit
+    Move-Item -Path $id -Destination $name
 }
 
 main
