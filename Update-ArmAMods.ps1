@@ -60,8 +60,8 @@ function Get-UpdateTimestampRemote($id) {
 
 function Get-UpdateTimestampLocal($id) {
     Set-Location -Path "C:\Arma3\$mod"
-    $metaFileHash = Get-Content 'meta.cpp' -Raw | ConvertFrom-StringData -Delimiter '='
-    return $metaFileHash['timestamp'].TrimEnd(";")
+    $metaFileHash = Get-ItemPropertyValue -Path "C:\Arma3\$mod" -Name LastWriteTime
+    return $metaFileHash
 }
 
 function Compare-Times($localTime, $remoteTime, $mod) {
