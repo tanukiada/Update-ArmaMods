@@ -21,7 +21,7 @@ function main {
             Write-Output "$mod is up to date. Continuing..."
         }
     }
-    Set-Location "C:\Users\james\Documents\Coding\powershell\Update-ArmAMods"
+    Set-Location "C:\ArmA3"
 }
 
 function Get-Mods {
