@@ -3,6 +3,12 @@
     Update-ArmaMods.ps1 checks all mods in C:\Arma3\ for updates.
 #>
 
+<#
+    TODO
+    1. Silent Function
+    2. Dryrun Function
+#>
+
 function main {
     $modList = Get-Mods
     $username = Read-Host "Input Steam username"
