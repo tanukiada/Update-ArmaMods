@@ -17,7 +17,7 @@ function main {
         $modID = Get-ModID($mod)
         $updateTimestampRemote = Get-UpdateTimestampRemote($modID)
         $updateTimestampLocal = Get-UpdateTimestampLocal($modID)
-        $unixTimeLocal = [DateTimeOffset]$updateTimestampLocal.ToUnixTimeSeconds()
+        $unixTimeLocal = ([DateTimeOffset]$updateTimestampLocal).ToUnixTimeSeconds()
         $status = Compare-Times($unixTimeLocal, $updateTimestampRemote, $mod)
         if ($status) {
             Write-Output "$mods needs updated. Updating Now."
