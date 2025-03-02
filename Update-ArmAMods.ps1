@@ -13,6 +13,7 @@ function main {
     $modList = Get-Mods
     $username = Read-Host "Input Steam username"
     $password = Read-Host "Input Steam password"
+    [DateTimeOffset]::Now.ToUnixTimeSeconds()
     foreach ($mod in $modList) {
         $modID = Get-ModID($mod)
         $updateTimestampRemote = Get-UpdateTimestampRemote($modID)
