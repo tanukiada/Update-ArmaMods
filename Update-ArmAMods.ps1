@@ -15,12 +15,12 @@ function main {
     $pass = Read-Host "Input Steam password"
     foreach ($mod in $modList) {
         $modID = Get-ModID($mod)
-        $updateTimestampRemote = Get-UpdateTimestampRemote($modID)
-        $updateTimestampLocal = Get-UpdateTimestampLocal($modID)
+        $updateTimestampRemote = Get-UpdateTimestampRemote $modID
+        $updateTimestampLocal = Get-UpdateTimestampLocal $modID
         $unixTimeLocal = ([DateTimeOffset]$updateTimestampLocal).ToUnixTimeSeconds()
         if ($updateTimestampRemote -gt $unixTimeLocal) {
             Write-Output "$mods needs updated. Updating Now."
-            Update-Mod($modID, $user, $pass, $name)
+            Update-Mod $modID $user $pass $name
         } elseif ($updateTimestampRemote -le $unixTimeLocal) {
             Write-Output "$mod is up to date. Continuing..."
         }
