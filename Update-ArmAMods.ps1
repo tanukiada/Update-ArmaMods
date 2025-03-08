@@ -13,21 +13,21 @@ function main {
     $modList = Get-Mods
     $username = Read-Host "Input Steam username"
     $password = Read-Host "Input Steam password"
-    [DateTimeOffset]::Now.ToUnixTimeSeconds()
     foreach ($mod in $modList) {
         $modID = Get-ModID($mod)
         $updateTimestampRemote = Get-UpdateTimestampRemote($modID)
         $updateTimestampLocal = Get-UpdateTimestampLocal($modID)
         $unixTimeLocal = ([DateTimeOffset]$updateTimestampLocal).ToUnixTimeSeconds()
-        $status = Compare-Times($unixTimeLocal, $updateTimestampRemote, $mod)
-        if ($status) {
+        Write-Output "remote: $updateTimestampRemote"
+        Write-Output "local: $unixTimeLocal"
+        if ($updateTimestampRemote -gt $unixTimeLocal) {
             Write-Output "$mods needs updated. Updating Now."
             Update-Mod($modID, $username, $password, $name)
-        } elseif (!$status) {
+        } elseif ($updateTimestampRemote -le $unixTimeLocal) {
             Write-Output "$mod is up to date. Continuing..."
         }
     }
-    Set-Location "C:\ArmA3"
+    Set-Location "C:\Users\james\Documents\Coding\powershell\Update-ArmAMods"
 }
 
 function Get-Mods {
@@ -35,11 +35,11 @@ function Get-Mods {
     return $mods
 }
 
-function Get-MetaFile($mod) {
-    Set-Location -Path "C:\Arma3\$mod"
-    $metaFileHash = Get-Content 'meta.cpp' -Raw | ConvertFrom-StringData -Delimiter '='
-    return $metaFileHash
-}
+# function Get-MetaFile($mod) {
+#     Set-Location -Path "C:\Arma3\$mod"
+#     $metaFileHash = Get-Content 'meta.cpp' -Raw | ConvertFrom-StringData -Delimiter '='
+#     return $metaFileHash
+# }
 
 function Get-ModID($mod) {
     Set-Location -Path "C:\Arma3\$mod"
@@ -64,17 +64,8 @@ function Get-UpdateTimestampLocal($id) {
     return $metaFileHash
 }
 
-function Compare-Times($localTime, $remoteTime, $mod) {
-
-    if ($remoteTime -gt $localTime) {
-        return $true
-    } elseif ($remoteTime -le $localTime) {
-        return $false
-    }
-}
-
 function Update-Mod($id, $username, $password, $name) {
-    ./steamcmd +force_install_dir C:\Arma3\ +login $username, $password +workshop_download_item 107410 $id +quit
+    ./C:\steamcmd\steamcmd +force_install_dir C:\Arma3\ +login $username, $password +workshop_download_item 107410 $id +quit
     Move-Item -Path $id -Destination $name
 }
 
