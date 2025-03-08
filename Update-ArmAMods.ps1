@@ -13,7 +13,6 @@ function main {
     $modList = Get-Mods
     $user = Read-Host "Input Steam username"
     $pass = Read-Host "Input Steam password"
-    Remove-Item -Path "C:\steamcmd\appcache\appinfo.vdf"
     foreach ($mod in $modList) {
         $modID = Get-ModID($mod)
         $updateTimestampRemote = Get-UpdateTimestampRemote $modID
