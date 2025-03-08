@@ -18,8 +18,6 @@ function main {
         $updateTimestampRemote = Get-UpdateTimestampRemote($modID)
         $updateTimestampLocal = Get-UpdateTimestampLocal($modID)
         $unixTimeLocal = ([DateTimeOffset]$updateTimestampLocal).ToUnixTimeSeconds()
-        Write-Output "remote: $updateTimestampRemote"
-        Write-Output "local: $unixTimeLocal"
         if ($updateTimestampRemote -gt $unixTimeLocal) {
             Write-Output "$mods needs updated. Updating Now."
             Update-Mod($modID, $username, $password, $name)
