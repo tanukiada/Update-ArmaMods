@@ -25,7 +25,7 @@ function main {
             Write-Output "$mod is up to date. Continuing..."
         }
     }
-    Set-Location "C:\Users\james\Documents\Coding\powershell\Update-ArmAMods"
+    Set-Location "C:\Arma3\"
 }
 
 function Get-Mods {
@@ -63,7 +63,7 @@ function Get-UpdateTimestampLocal($id) {
 }
 
 function Update-Mod($id, $user, $pass, $name) {
-    &"C:\steamcmd\steamcmd" "+force_install_dir" "C:\Arma3\" "+login" "$user" "$pass" "+workshop_download_item" "107410" "$id" "+quit"
+    &"C:\steamcmd\steamcmd" "+login" "$user" "$pass" "+workshop_download_item" "107410" "$id" "+quit"
     Move-Item -Path "C:\steamcmd\steamapps\workshop\content\$id" -Destination "C:\Arma3\$name"
 }
 
