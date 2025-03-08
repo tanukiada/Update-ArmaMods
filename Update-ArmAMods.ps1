@@ -64,7 +64,7 @@ function Get-UpdateTimestampLocal($id) {
 
 function Update-Mod($id, $user, $pass, $name) {
     &"C:\steamcmd\steamcmd" "+force_install_dir" "C:\Arma3\" "+login" "$user" "$pass" "+workshop_download_item" "107410" "$id" "+quit"
-    Move-Item -Path $id -Destination $name
+    Move-Item -Path "C:\steamcmd\steamapps\workshop\content\$id" -Destination "C:\Arma3\$name"
 }
 
 main
