@@ -11,8 +11,8 @@
 
 function main {
     $modList = Get-Mods
-    $username = Read-Host "Input Steam username"
-    $password = Read-Host "Input Steam password"
+    $user = Read-Host "Input Steam username"
+    $pass = Read-Host "Input Steam password"
     foreach ($mod in $modList) {
         $modID = Get-ModID($mod)
         $updateTimestampRemote = Get-UpdateTimestampRemote($modID)
@@ -20,7 +20,7 @@ function main {
         $unixTimeLocal = ([DateTimeOffset]$updateTimestampLocal).ToUnixTimeSeconds()
         if ($updateTimestampRemote -gt $unixTimeLocal) {
             Write-Output "$mods needs updated. Updating Now."
-            Update-Mod($modID, $username, $password, $name)
+            Update-Mod($modID, $user, $pass, $name)
         } elseif ($updateTimestampRemote -le $unixTimeLocal) {
             Write-Output "$mod is up to date. Continuing..."
         }
@@ -62,8 +62,8 @@ function Get-UpdateTimestampLocal($id) {
     return $metaFileHash
 }
 
-function Update-Mod($id, $username, $password, $name) {
-    &"C:\steamcmd\steamcmd" "+force_install_dir" "C:\Arma3\" "+login" "$username" "$password" "+workshop_download_item" "107410" "$id" "+quit"
+function Update-Mod($id, $user, $pass, $name) {
+    &"C:\steamcmd\steamcmd" "+force_install_dir" "C:\Arma3\" "+login" "$user" "$pass" "+workshop_download_item" "107410" "$id" "+quit"
     Move-Item -Path $id -Destination $name
 }
 
