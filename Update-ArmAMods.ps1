@@ -70,6 +70,7 @@ function Update-Mod($id, $user, $pass, $name) {
     $downloaded = $true
     if ($downloaded) {
         Move-Item -Path "C:\steamcmd\steamapps\workshop\content\107410\$id\" -Destination "C:\Arma3\$name\"
+        $downloaded = $false
     } else {
         Write-Error "Mod failed to download."
         $downloaded = $false
