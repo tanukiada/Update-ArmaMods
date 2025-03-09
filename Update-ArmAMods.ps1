@@ -66,11 +66,13 @@ function Update-Mod($id, $user, $pass, $name) {
     for ($i = 0; $i -lt 5; $i++) {
         &"C:\steamcmd\steamcmd" "+login" "$user" "$pass" "+workshop_download_item" "107410" "$id" "+quit"
     }
+    Write-Error "Update failed after 5 attempts."
     $downloaded = $true
     if ($downloaded) {
         Move-Item -Path "C:\steamcmd\steamapps\workshop\content\107410\$id\" -Destination "C:\Arma3\$name\"
     } else {
         Write-Error "Mod failed to download."
+        $downloaded = $false
     }
 }
 
