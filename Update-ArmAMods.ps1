@@ -25,7 +25,7 @@ function main {
             Write-Output "$mod is up to date. Continuing..."
         }
     }
-    Set-Location "C:\Arma3\"
+    Set-Location -Path "C:\Arma3\"
 }
 
 function Get-Mods {
@@ -64,8 +64,12 @@ function Get-UpdateTimestampLocal($id) {
 
 function Update-Mod($id, $user, $pass, $name) {
     &"C:\steamcmd\steamcmd" "+login" "$user" "$pass" "+workshop_download_item" "107410" "$id" "+quit"
-    Start-Sleep -Seconds 5
-    Move-Item -Path "C:\steamcmd\steamapps\workshop\content\107410\$id\" -Destination "C:\Arma3\$name\"
+    $downloaded = $true
+    if ($downloaded) {
+        Move-Item -Path "C:\steamcmd\steamapps\workshop\content\107410\$id\" -Destination "C:\Arma3\$name\"
+    } else {
+        Write-Error "Mod failed to download."
+    }
 }
 
 main
